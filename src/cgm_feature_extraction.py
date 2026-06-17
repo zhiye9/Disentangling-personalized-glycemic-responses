@@ -1,6 +1,4 @@
 """
-00_swt_feature_extraction.py
-============================
 Stationary Wavelet Transform (SWT) feature extraction and traditional glucose metrics from 3-hour postprandial CGM curves. This script takes a meal-level CSV file of postprandial glucose readings and computes 3 WT-derived feaures (frequency energies) and 3 traditional features (iAUC, peak rise, time to peak).
 
 Input
