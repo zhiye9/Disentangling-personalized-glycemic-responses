@@ -7,7 +7,7 @@ Input
 
 Output
 ------
-- df_swt.csv : df_meal_cgm with appended columns:
+- df_swt : df_meal_cgm with appended columns:
     swt_db2_energy_cA2, swt_db2_energy_cD2, swt_db2_energy_cD1 (WT-derived features), iauc, peak_rise, peak_time (traditional glucose metrics).
 """
 
