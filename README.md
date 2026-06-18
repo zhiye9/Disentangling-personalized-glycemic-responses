@@ -4,7 +4,7 @@ This repository includes code for the manuscript "Temporal structure in postpran
 
 Postprandial glucose responses are central to metabolic health, but most studies reduce these complex physiological signals to summary measures such as incremental area under the curve. Here, we applied Wavelet Transform (WT) to 76,083 postprandial glucose responses from 4,316 adults monitored under free-living conditions, decomposing each response into slow and rapid temporal components. Using multilevel mixed-effects models with centering-within-cluster decomposition, we quantified inter-individual variability in carbohydrate sensitivity across temporal scales, identified a substantial personalization gap unexplained by measured dietary, clinical, and molecular factors, and linked participant-specific response profiles to cardiometabolic risk, and validated the multi-scale features on an independent OGTT cohort on classification of mechanistically defined dysglycemia endotypes.
 
-<!-- ![](figures/cgm_fg1_final.png) -->
+![](figures/cgm_fg1_final.png)
 
 ## This repository contains code used for:
 
