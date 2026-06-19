@@ -14,7 +14,7 @@ from scipy.interpolate import UnivariateSpline
 from scipy.signal import find_peaks, welch
 
 
-PROJECT_DIR = Path("/home/zhi/data/GP_diet_challenge/Subtype_metabolic_classification/metabolic_subphenotypes_db_new")
+PROJECT_DIR = Path("~/Subtype_metabolic_classification/metabolic_subphenotypes_db_new")
 INPUT_CSV = PROJECT_DIR / "all_cohort_metabolicsubphenotyping_ogtt_glucose_09102023.csv"
 FEATURE_DIR = PROJECT_DIR / "results" / "dwt_frequency_features"
 

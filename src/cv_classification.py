@@ -23,12 +23,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-PROJECT_DIR = Path("/home/zhi/data/GP_diet_challenge/Subtype_metabolic_classification/metabolic_subphenotypes_db_new")
+PROJECT_DIR = Path("~/Subtype_metabolic_classification/metabolic_subphenotypes_db_new")
 FEATURE_DIR = PROJECT_DIR / "results" / "dwt_frequency_features"
-CV_DIR = PROJECT_DIR / "results" / "dwt_frequency_cv" / "ml"
+CV_DIR = PROJECT_DIR / "results" / "dwt_frequency_cv"
 PLOT_DIR = CV_DIR / "plots"
 
-ANNOTATION_CSV = PROJECT_DIR / "All_cohort_MuscleIR_BetaCellFunction_Annotation.csv"
 INITIAL_PHENOTYPES_CSV = PROJECT_DIR / "initial_cohort_metabolic_phenotypes.csv"
 INITIAL_EXP_TYPE = "venous_without_matching_cgm_and_without_planned_athome_cgm"
 
@@ -37,10 +36,10 @@ N_FOLDS = 5
 RANDOM_SEED = 10
 
 TARGETS = {
-    "muscle_ir": {"label_col": "sspg_2_classes", "pos_label": "IR", "source": "annotation"},
-    "beta_cell": {"label_col": "di_2_classes_median", "pos_label": "Dysfunction", "source": "annotation"},
-    "incretin_effect": {"label_col": "IE_Class", "pos_label": "Dysfunction", "source": "initial_phenotypes"},
-    "hepatic_ir": {"label_col": "HepaticIR_Class", "pos_label": "IR", "source": "initial_phenotypes"},
+    "muscle_ir": {"label_col": "MuscleIR_Class", "pos_label": "IR"},
+    "beta_cell": {"label_col": "BetaCellFunction_Class", "pos_label": "Dysfunction"},
+    "incretin_effect": {"label_col": "IE_Class", "pos_label": "Dysfunction"},
+    "hepatic_ir": {"label_col": "HepaticIR_Class", "pos_label": "IR"},
 }
 TARGET_ORDER = ["muscle_ir", "beta_cell", "incretin_effect", "hepatic_ir"]
 TARGET_LABELS = {
@@ -223,20 +222,16 @@ dwt_full_features = pd.read_csv(FEATURE_DIR / "dwt_full_features_level2.csv")
 dwt_frequency_ablation_features = pd.read_csv(FEATURE_DIR / "dwt_frequency_ablation_features_level2.csv")
 fft_welch_features = pd.read_csv(FEATURE_DIR / "fft_welch_features.csv")
 
-annotation = pd.read_csv(ANNOTATION_CSV, na_values=["NA", "--", ""])
-initial_subjects = np.unique(annotation.loc[annotation["exp_type"].eq(INITIAL_EXP_TYPE), "subject_id"].astype(str))
 initial_phenotypes = pd.read_csv(INITIAL_PHENOTYPES_CSV, na_values=["NA", "--", ""]).rename(
     columns={"SubjectID": "subject_id"}
 )
+initial_phenotypes["subject_id"] = initial_phenotypes["subject_id"].astype(str)
+initial_subjects = initial_phenotypes["subject_id"].unique()
 
 target_label_tables = {}
 for target, cfg in TARGETS.items():
     label_col = cfg["label_col"]
-    if cfg["source"] == "annotation":
-        labels = annotation[["subject_id", label_col]].drop_duplicates(subset=["subject_id"])
-    else:
-        labels = initial_phenotypes[["subject_id", label_col]].copy()
-    labels["subject_id"] = labels["subject_id"].astype(str)
+    labels = initial_phenotypes[["subject_id", label_col]].copy()
     target_label_tables[target] = labels.dropna(subset=[label_col]).reset_index(drop=True)
 
 
