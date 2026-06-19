@@ -7,7 +7,7 @@ Extend the random-slope framework beyond carbohydrate to fat, protein and fiber.
 2. pairwise nutrient random slopes
   y ~ fixed_effects + (1 + nut_A_within + nut_B_within | person). 
 
-Run after feature_extraction_preprocessing.py and progressive_modeling.py。
+This script should be run after progressive_modeling.py。
 """
 
 import numpy as np
@@ -135,7 +135,6 @@ for resp_col, resp_disp, is_log in response_runs:
         "var_u0": var_u0,
         "var_e": var_e,
         "icc": icc,
-        "aic": fit.aic,
         "llf": fit.llf,
         "n_obs": len(df_fit),
         "n_grp": df_fit["participant_id"].nunique(),
@@ -143,7 +142,7 @@ for resp_col, resp_disp, is_log in response_runs:
     }
     print(f"  {resp_disp}: n={len(df_fit)}, "
           f"grp={ri_results[resp_col]['n_grp']}, ICC={icc:.4f}, "
-          f"var_u0={var_u0:.6f}, var_e={var_e:.6f}, AIC={fit.aic:.1f} [{status}]")
+          f"var_u0={var_u0:.6f}, var_e={var_e:.6f} [{status}]")
 
 
 # individual nutrient random slope models
@@ -192,7 +191,6 @@ for nut_key in available_nutrients:
 
         gamma = fit.fe_params.get(slope_var, np.nan)
         lrt_stat, lrt_p_mix = lrt_boundary_corrected(fit.llf, ref["llf"], n_extra=2)
-        delta_aic = fit.aic - ref["aic"]
         sig = "***" if lrt_p_mix < 0.001 else "**" if lrt_p_mix < 0.01 else "*" if lrt_p_mix < 0.05 else "ns"
 
         individual_nut_results[nut_key][resp_col] = {
@@ -209,8 +207,6 @@ for nut_key in available_nutrients:
             "range_hi": gamma + 1.96 * sd1,
             "lrt_stat": lrt_stat,
             "lrt_p_mix": lrt_p_mix,
-            "aic": fit.aic,
-            "delta_aic": delta_aic,
             "llf": fit.llf,
             "n_obs": ref["n_obs"],
             "n_grp": ref["n_grp"],
@@ -294,8 +290,6 @@ for nut_a, nut_b in PAIRWISE_PAIRS:
             "var_e": var_e,
             "lrt_stat": lrt_stat,
             "lrt_p_mix": lrt_p_mix,
-            "aic": fit.aic,
-            "delta_aic": fit.aic - ref["aic"],
             "lrt_vs_a": lrt_vs_a,
             "lrt_vs_b": lrt_vs_b,
         }

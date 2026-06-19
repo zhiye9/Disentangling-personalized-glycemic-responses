@@ -59,7 +59,7 @@ for idx, (resp_col, resp_name, is_log) in enumerate(response_runs):
     icc_null = var_u0_s1 / (var_u0_s1 + var_e_s1)
     progressive_results[resp_name]["Stage1_null"] = {
         "var_u0": var_u0_s1, "var_e": var_e_s1, "icc": icc_null,
-        "aic": fit_s1.aic, "n_obs": n_obs, "n_groups": n_groups,
+        "n_obs": n_obs, "n_groups": n_groups,
     }
     print(f"    ICC_null = {icc_null:.4f} ({100 * icc_null:.1f}% between-person)")
 
@@ -74,7 +74,7 @@ for idx, (resp_col, resp_name, is_log) in enumerate(response_runs):
     progressive_results[resp_name]["Stage2a_nutrients"] = {
         "var_u0": var_u0_s2a, "var_e": var_e_s2a,
         "icc": var_u0_s2a / (var_u0_s2a + var_e_s2a),
-        "aic": fit_s2a.aic, "delta_var_e_pct": delta_e_s2a,
+        "delta_var_e_pct": delta_e_s2a,
     }
     print(f"    var_e reduction: {delta_e_s2a:.1f}%")
 
@@ -112,7 +112,7 @@ for idx, (resp_col, resp_name, is_log) in enumerate(response_runs):
     progressive_results[resp_name]["Stage3_random_slope"] = {
         "var_u0": var_u0_s3, "var_u1": var_u1_s3,
         "cov_u01": cov_u01_s3, "cor_u01": cor_u01_s3,
-        "var_e": var_e_s3, "icc": icc_s3, "aic": fit_s3.aic,
+        "var_e": var_e_s3, "icc": icc_s3,
         "lrt_stat": lrt_stat, "lrt_p_mix": lrt_p,
         "R2_marginal": r2_marginal,
         "R2_conditional": r2_conditional,
